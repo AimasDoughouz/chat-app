@@ -1,60 +1,36 @@
 import React, { Component } from 'react';
-import socketIOClient from 'socket.io-client';
+import { Redirect } from 'react-router-dom';
+import { MainContext } from '../MainStateProvider';
 
 export default class Chat extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            message: '',
-            messages: [],
-        }
-    }
-
-    componentWillMount() {
-        const socket = socketIOClient('http://localhost:8000');
-      
-            socket.on("sendMessage", message => {
-                console.log(message);
-                this.setState({
-                    messages: [...this.state.messages, message]
-                })
-                console.log(this.state.messages)
-              })
-        
-      }
-
-
-    send = (e) => {
-        e.preventDefault();
-        const socket = socketIOClient('http://localhost:8000');
-        socket.emit('sendMessage', this.state.message) 
-        this.setState({
-            ...this.state,
-            message: ''
-        })
-    }
-
-   
-
-    handleFormChange = (e) => {
-        this.setState({
-            ...this.state,
-            message: e.target.value
-        })
-    }
-
+    static contextType = MainContext;
+    
     render() {
-        console.log('this is state', this.state.messages)
+        if (!this.context.state.user.name) {
+            return <Redirect to={{
+                pathname: '/',
+            }} />
+          } 
+    
         return (
-            <div>
-                <div></div>
-                <h1>chatting</h1>
-                <form onSubmit={this.send}>
-                    <input type="text" value={this.state.message} onChange={this.handleFormChange}/>
-                    <button type="submit" value="submit">Send</button>
-                </form>
-                
-            </div>
+            <MainContext.Consumer>
+                {context => ( 
+                <div>
+                    {context.state.messages.map((user, i) => {
+                        return (
+                            <div style={{color : user.color}} key={i}> {user.name} :
+                                <div style={{color : 'black'}}>{user.message}</div>
+                            </div>
+                        )
+                    } )}   
+                    <h1>chatting</h1>
+                    <form onSubmit={context.onSubmit}>
+                        <input type="text" value={context.state.user.message} onChange={context.handleFormChange('message')}/>
+                        <button type="submit" value="submit">Send</button>
+                    </form> 
+                </div>
+                )}
+            </MainContext.Consumer>
         )
     }
 }

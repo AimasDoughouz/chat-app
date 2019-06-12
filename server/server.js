@@ -16,7 +16,6 @@ io.on('connection', socket => {
   console.log('User connected')
   
   socket.on('sendMessage', (msg) => {
-    console.log('Color Changed to: ', msg)
     io.sockets.emit('sendMessage', msg)
   })
 
