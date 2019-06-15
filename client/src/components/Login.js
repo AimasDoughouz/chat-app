@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { MainContext } from '../MainStateProvider';
 import { Redirect } from 'react-router-dom';
+import { Wrapper, Card, Input, Button  } from '../style';
 
 export default class Login extends Component {
     static contextType = MainContext;
@@ -25,13 +26,15 @@ export default class Login extends Component {
           } 
         return (
             <MainContext.Consumer>
-                {context => ( 
-                <div>
-                    <form onSubmit={context.onNameSubmit(this.state.name)}>
-                        <input type="text" value={this.state.name} onChange={this.setNameOnChange} />
-                        <button type="submit" value="submit">Login</button>
-                    </form>
-                </div>
+                {context => (
+                <Wrapper>
+                    <Card>
+                        <form onSubmit={context.onNameSubmit(this.state.name)}>
+                            <Input type="text" value={this.state.name} onChange={this.setNameOnChange} />
+                            <Button type="submit" value="submit">Login</Button>
+                        </form>
+                    </Card>
+                </Wrapper> 
                )}
             </MainContext.Consumer>
         )

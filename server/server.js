@@ -22,6 +22,12 @@ io.on('connection', socket => {
   socket.on('disconnect', () => {
     console.log('user disconnected')
   })
+
+  socket.on('connected', (userName) => {
+    console.log(userName)
+    io.sockets.emit('connected', userName)
+  })
+
 })
 
 server.listen(port, () => console.log(`Listening on port ${port}`))

@@ -1,8 +1,8 @@
 import React from 'react';
-import Chat from './components/Chat';
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import Login from './components/Login';
 import  MainStateProvider  from './MainStateProvider';
+import MainContainer from './components/MainContainer';
 
 const Links = () =>  (
   <nav>
@@ -19,7 +19,7 @@ function App() {
           <Links />
           <Switch>
             <Route exact path="/" component={Login} />
-            <Route exact path="/chat" component={Chat} />
+            <Route exact path="/chat" component={MainContainer} />
             <Route path="*" component={() => '404 NOT FOUND'} />
           </Switch>
         </div>

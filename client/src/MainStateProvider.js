@@ -14,6 +14,7 @@ class MainStateProvider extends Component {
                 color: ''
             },
             messages: [],
+            users:[]
         }
     }
 
@@ -25,7 +26,16 @@ class MainStateProvider extends Component {
                 messages: [...this.state.messages, user]
             })
             console.log('messeages:',this.state.messages)
+        })
+      // socket.emit('connected', this.state.users) 
+        socket.on("connected", name => {
+            console.log('name:', name)
+            this.setState({
+                ...this.state,
+                users: [...this.state.users, name]
+            })
         })  
+       
     }
 
     onSubmit = (e) => {
@@ -43,6 +53,8 @@ class MainStateProvider extends Component {
 
    onNameSubmit = name => e => {
        e.preventDefault();
+       const socket = socketIOClient('http://localhost:8000');
+       socket.emit('connected', name) 
     //   this.props.history.push('/chat')
        this.setState({
             ...this.state,
@@ -50,8 +62,9 @@ class MainStateProvider extends Component {
             ...this.state.user,
             name: name,
             color: '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6)
-        } 
+            }    
        })
+ 
    }
 
     handleFormChange = input => e => {
