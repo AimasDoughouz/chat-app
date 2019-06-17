@@ -23,8 +23,13 @@ io.on('connection', socket => {
     console.log('user disconnected')
   })
 
+  socket.on('getUsers', (users) => {
+    console.log('users array:', users)
+    io.sockets.emit('get users', users)
+  })
+
   socket.on('connected', (userName) => {
-    console.log(userName)
+    console.log('userNmae:', userName)
     io.sockets.emit('connected', userName)
   })
 

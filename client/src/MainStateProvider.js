@@ -18,6 +18,17 @@ class MainStateProvider extends Component {
         }
     }
 
+    getUsers = async () => {
+        const socket = socketIOClient('http://localhost:8000');
+        await socket.on("getUsers", users => {
+            this.setState({
+                ...this.state,
+                users:[...this.state.users, users]
+            })
+        })
+        socket.emit("getUsers", this.state.users)
+    }
+
     componentWillMount() {
         const socket = socketIOClient('http://localhost:8000');
         socket.on("sendMessage", user => {
@@ -34,6 +45,7 @@ class MainStateProvider extends Component {
                 ...this.state,
                 users: [...this.state.users, name]
             })
+            socket.emit('getUsers', this.state.users)
         })  
        
     }
@@ -56,13 +68,20 @@ class MainStateProvider extends Component {
        const socket = socketIOClient('http://localhost:8000');
        socket.emit('connected', name) 
     //   this.props.history.push('/chat')
+       socket.on('getUsers', users => {
+           console.log(users)
+           this.setState({
+               ...this.state,
+               users: [...this.state.users, users]
+           })
+       })
        this.setState({
             ...this.state,
             user:{
             ...this.state.user,
             name: name,
             color: '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6)
-            }    
+            },   
        })
  
    }

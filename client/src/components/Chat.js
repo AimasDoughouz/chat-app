@@ -22,16 +22,15 @@ export default class Chat extends Component {
             <MainContext.Consumer>
                 {context => ( 
                 <ChatBox id="messageList">
-                    <h1>chatting</h1>
-                    {context.state.messages.map((user, i) => {
-                        return (
-                            <div key={i} className={user.name === context.state.user.name 
-                                ? "bubble me" : "bubble you"}>
-                                <div style={{color : user.color}}> {user.name}: </div>
-                                <div style={{color : 'black'}}>{user.message}</div>
-                            </ div>
-                        )
-                    } )}   
+                        {context.state.messages.map((user, i) => {
+                            return (
+                                <div key={i} className={user.name === context.state.user.name 
+                                    ? "bubble me" : "bubble you"}>
+                                    <div style={{color : user.color}}> {user.name}: </div>
+                                    <div style={{color : 'black'}}>{user.message}</div>
+                                </ div>
+                            )
+                        } )}   
                 </ChatBox>
                 )}
             </MainContext.Consumer>

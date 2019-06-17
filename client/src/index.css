@@ -17,7 +17,7 @@ code {
 }
 
 .bubble{
-  background-color: #F2F2F2;
+  background-color: rgb(241, 214, 178);
   border-radius: 5px;
   box-shadow: 0 0 6px #B2B2B2;
   display: inline-block;
@@ -28,7 +28,7 @@ code {
 }
 
 .bubble::before {
-  background-color: #F2F2F2;
+  background-color: rgb(241, 214, 178);
   content: "\00a0";
   display: block;
   height: 16px;
@@ -63,5 +63,9 @@ code {
 }
 
 #messageList {
-  background-color: rgba(243, 236, 138, 0.2)
+  background-image: url('./im2.png');
+  background-repeat: no-repeat;
+  background-size: cover;
 }
+
+
